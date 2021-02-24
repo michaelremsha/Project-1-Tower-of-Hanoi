@@ -20,3 +20,9 @@
 - As a player I want the game to track score even if page was reloaded.
 - As a player I want the game to have a selection for the amount of disks as a difficulty levels.
 - As a player I want the game to have skins that can be cycled through.
+
+
+
+
+
+QUESTIONS:
