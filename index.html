@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Tower of Hanoi</title>
+
+</head>
+
+<body>
+    <div class="head">
+        <div class="rules">
+            <p>Rules</p>
+        </div>
+        <div class="timer">
+            <p>x seconds</p>
+        </div>
+        <div class="turn">
+            <p>y Turn</p>
+        </div>
+    </div>
+
+    <canvas id="canvas"></canvas>
+
+    <div class="botLine"></div>
+    <div class="set">
+        <div class="sound">
+            <p> Sound</p>
+        </div>
+        <div class="reset">
+            <p>Reset</p>
+        </div>
+        <div class="level">
+            <button onclick="spawnDisks(4)">4</button>
+        </div>
+
+    </div>
+
+    <script src='app.js'></script>
+</body>
+
+</html>
