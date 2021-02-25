@@ -1,3 +1,5 @@
+
+
 # Project-1-Tower-of-Hanoi
 ## MVP Goals
 - As a player I want the game to have 3 clickable to select the top disk and click it on a different poll to move"teleport" the disk there, or place it back on the original poll. One at a time.
@@ -25,4 +27,6 @@
 
 
 
-QUESTIONS:
+UNSOLVED ISSUES:
+
+- Scaling of the canvas, very close

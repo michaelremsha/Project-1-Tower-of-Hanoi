@@ -58,30 +58,13 @@ function stageCanvas(){
     canvas.width = canvasDim.w
     canvas.height = canvasDim.h
     drawAll()
-    // updateLoc(canvas.width,canvas.height)
+
 }
 stageCanvas()
-
-// Window size function for detection WORK IN PROGRESS
-// function windowSize(){
-//     const w = document.documentElement.clientWidth
-//     const h = document.documentElement.clientHeight
-//     console.log(w, h)
-//     canvasDim.w = w * 0.75
-//     canvasDim.h = h * 0.75
-//     stageCanvas()
-//     spawnDisks()
-// }
-// window.addEventListener('resize',windowSize)
-// function updateLoc(w,h) {
-// }
-
 
 // Level selection
 function levels(n){
     nDisks = n
-    // rods = [[],[],[]]
-    // diskData = {}
     firstClick = true
     spawnDisks()
 }
@@ -107,8 +90,7 @@ function spawnDisks(){
         diskData[i].y = canvasDim.h - baseDim.h - ((nDisks - i) * diskDimCell)
         diskData[i].color = DISK_COLORS[i]
     }
-    // console.log(rods)
-    // console.log(diskData)
+
     turn = -1
     turnCounter()
     totalSeconds = 0
@@ -126,7 +108,7 @@ canvas.addEventListener('click',(event) => {
         } else if((event.clientX  >= canvasDim.w * 5 / 8) && (event.clientX < canvasDim.w * 7 / 8)){
             select1 = 2
         } else{
-            console.log('pepega');
+
         }
 
         if(rods[select1].length == 0){
@@ -145,7 +127,7 @@ canvas.addEventListener('click',(event) => {
             move(select1, 2)
 
         } else{
-            console.log('pepega');
+
         }
     }
     drawAll()
@@ -158,19 +140,18 @@ function move (rodid1 = null, rodid2 = null){
             if ((rods[rodid1][(rods[rodid1].length - 1)]) < (rods[rodid2][rods[rodid2].length-1]) || (rods[rodid2].length == 0 && rods[rodid1].length !==0)) {
                 const lastElement = rods[rodid1].pop()
                 rods[rodid2].push(lastElement)
-                // console.log(lastElement)
-                // console.log(rods)
-                // console.log('reSpawn')
                 turnCounter()
-                return  reSpawn(lastElement,rodid2)
+                reSpawn(lastElement,rodid2)
+                select1 = null
+                return  
             } else{
-                console.log(`rules`)
+
             }
         } else{
-            console.log(`wait for 2nd click`)
+
         }
     } else{
-        console.log(`nothing clicked`)
+
     }
     
 }
@@ -193,20 +174,13 @@ function drawAll() {
         const startY = value.y
         ctx.fillStyle = value.color
         ctx.fillRect(startX, startY, diskDimCell*(parseInt(key)+1), diskDimCell)
-        // console.log(key)
-        
-        // if (select1 !== null) {
-        //     console.log(rods[select1]);
-        //     // console.log(rods[select1[rods[select1].length - 1]]);
-            
-        // }
-        // if (select1 !== null && key === rods[select1[rods.length - 1]]) {
-        //     console.log('run');
-        //     ctx.strokeStyle = 'blue';
-        //     ctx.lineWidth = 5;
-        //     ctx.strokeRect(startX, startY, diskDimCell*(parseInt(key)+1), diskDimCell);
-        // }
-        
+
+        if (select1 !== null && parseInt(key) === rods[select1][rods[select1].length - 1]) {
+            ctx.strokeStyle = 'blue';
+            ctx.lineWidth = 5;
+            ctx.strokeRect(startX, startY, diskDimCell*(parseInt(key)+1), diskDimCell);
+        }  
+    
     }   
       
 }
