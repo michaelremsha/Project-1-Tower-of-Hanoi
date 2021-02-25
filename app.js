@@ -2,16 +2,16 @@ const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
 
 const canvasDim = {
-    w: 800,
-    h: 400
+    w: 1600,
+    h: 800
 }
 const rodDim = {
     w: 4,
-    h: 120
+    h: canvasDim.h - 0.5 * canvasDim.h
 }
 
 const baseDim = {
-    w: 780,
+    w: canvasDim.w - 0.2*canvasDim.w,
     h: 6
 }
 
@@ -20,7 +20,7 @@ const DISK_COLORS = ['red','green','yellow','purple','orange','indigo','lightsea
 //every area for disks on the rod is devided by ten since 
 const diskDimCell = canvasDim.w * 0.3 * 0.1
  
-const nDisks = 8
+let nDisks = 4
 
 let rods = [[],[],[]]
 
@@ -28,60 +28,107 @@ let diskData = {}
 
 let firstClick = true
 
-// setting canvas
+let select1 = null
+
+let turn = 0
+
+//Timer, pulled from codePen, belonging to Nate Nienaber
+const minutesLabel = document.getElementById("minutes")
+const secondsLabel = document.getElementById("seconds")
+let totalSeconds = 0
+setInterval(setTime, 1000);
+
+function setTime(){
+    ++totalSeconds;
+    secondsLabel.innerHTML = pad(totalSeconds%60);
+    minutesLabel.innerHTML = pad(parseInt(totalSeconds/60));
+}
+
+function pad(val){
+    var valString = val + "";
+    if(valString.length < 2){
+        return "0" + valString;
+    } else {
+        return valString;
+    }
+}
+
+// Setting canvas
 function stageCanvas(){
     canvas.width = canvasDim.w
     canvas.height = canvasDim.h
-
+    drawAll()
+    // updateLoc(canvas.width,canvas.height)
 }
 stageCanvas()
 
-function spawnDisks(nDisks){
+// Window size function for detection WORK IN PROGRESS
+// function windowSize(){
+//     const w = document.documentElement.clientWidth
+//     const h = document.documentElement.clientHeight
+//     console.log(w, h)
+//     canvasDim.w = w * 0.75
+//     canvasDim.h = h * 0.75
+//     stageCanvas()
+//     spawnDisks()
+// }
+// window.addEventListener('resize',windowSize)
+// function updateLoc(w,h) {
+// }
+
+
+// Level selection
+function levels(n){
+    nDisks = n
+    // rods = [[],[],[]]
+    // diskData = {}
+    firstClick = true
+    spawnDisks()
+}
+
+// Turn Counter
+function turnCounter(){
+    turn += 1
+    const trn = document.querySelector(".turn")
+    trn.innerText = `${turn} turn`
+
+}
+
+function spawnDisks(){
     rods = [[],[],[]]
     diskData = {}
     for (let i = nDisks - 1; i >= 0 ; i--) {
         rods[0].push(i)
         
         diskData[i] = {}
-        
-        
+                
         const centerX = (0.25 * canvasDim.w)
         diskData[i].x = centerX - (((i+1) * diskDimCell)/2)
         diskData[i].y = canvasDim.h - baseDim.h - ((nDisks - i) * diskDimCell)
         diskData[i].color = DISK_COLORS[i]
     }
-    console.log(rods)
-    console.log(diskData)
+    // console.log(rods)
+    // console.log(diskData)
+    turn = -1
+    turnCounter()
+    totalSeconds = 0
     drawAll()
 }
 
-
-
-let select1 = null
 canvas.addEventListener('click',(event) => {
-    console.log(event)
-    // ctx.fillRect(event.clientX, event.clientY, 150, 100)
-    // console.log(canvasDim.w / 8);
-    // console.log(canvasDim.w * 3 / 8)
-    
+    // console.log(event)
     if (firstClick === true) {
         firstClick = false
         if ((event.clientX >= canvasDim.w / 8) && (event.clientX < canvasDim.w * 3 / 8)) {
             select1 = 0
-        
-
         } else if((event.clientX  >= canvasDim.w * 3 / 8) && (event.clientX < canvasDim.w * 5 / 8)) {
             select1 = 1
-            
-
-        } else if((event.clientX  >= canvasDim.w * 5 / 8) && (event.clientX < canvasDim.w * 7 / 8)) {
+        } else if((event.clientX  >= canvasDim.w * 5 / 8) && (event.clientX < canvasDim.w * 7 / 8)){
             select1 = 2
-           
-
         } else{
             console.log('pepega');
-            
         }
+
         if(rods[select1].length == 0){
             firstClick = true
         }
@@ -99,41 +146,31 @@ canvas.addEventListener('click',(event) => {
 
         } else{
             console.log('pepega');
-            
         }
-        
     }
-
-    // console.log(click1);
-    // save which click it is
+    drawAll()
 })
 
 
 function move (rodid1 = null, rodid2 = null){
     if (rodid1 !== null) {
-        console.log(rodid1,rodid2)
-        if (rodid2 !== null) {
-            console.log(`both clicked`);
-            
+        if (rodid2 !== null) {         
             if ((rods[rodid1][(rods[rodid1].length - 1)]) < (rods[rodid2][rods[rodid2].length-1]) || (rods[rodid2].length == 0 && rods[rodid1].length !==0)) {
                 const lastElement = rods[rodid1].pop()
                 rods[rodid2].push(lastElement)
-                console.log(lastElement)
-                console.log(rods);
-                console.log('reSpawn');
-
+                // console.log(lastElement)
+                // console.log(rods)
+                // console.log('reSpawn')
+                turnCounter()
                 return  reSpawn(lastElement,rodid2)
-                
             } else{
-                console.log(`rules`);
-                
+                console.log(`rules`)
             }
         } else{
-            console.log(`wait for 2nd click`);
+            console.log(`wait for 2nd click`)
         }
     } else{
-        console.log(`nothing clicked`);
-        console.log(rods[rodid1],rods[rodid2])
+        console.log(`nothing clicked`)
     }
     
 }
@@ -145,6 +182,9 @@ function reSpawn(rectId,rodI){
     drawAll()
 }
 
+
+
+
 function drawAll() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     drawBackground()
@@ -153,14 +193,23 @@ function drawAll() {
         const startY = value.y
         ctx.fillStyle = value.color
         ctx.fillRect(startX, startY, diskDimCell*(parseInt(key)+1), diskDimCell)
+        // console.log(key)
         
-
-    }
+        // if (select1 !== null) {
+        //     console.log(rods[select1]);
+        //     // console.log(rods[select1[rods[select1].length - 1]]);
+            
+        // }
+        // if (select1 !== null && key === rods[select1[rods.length - 1]]) {
+        //     console.log('run');
+        //     ctx.strokeStyle = 'blue';
+        //     ctx.lineWidth = 5;
+        //     ctx.strokeRect(startX, startY, diskDimCell*(parseInt(key)+1), diskDimCell);
+        // }
         
+    }   
+      
 }
-
-
-
 
 function drawBackground(){
     

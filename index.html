@@ -12,13 +12,17 @@
 <body>
     <div class="head">
         <div class="rules">
-            <p>Rules</p>
+            <input type="button" onclick="location.href='https://en.wikipedia.org/wiki/Tower_of_Hanoi';"
+                value="Rules" />
+
         </div>
         <div class="timer">
-            <p>x seconds</p>
+            <label id="minutes">00</label>
+            <label id="colon">:</label>
+            <label id="seconds">00</label>
         </div>
         <div class="turn">
-            <p>y Turn</p>
+            Turn
         </div>
     </div>
 
@@ -27,13 +31,17 @@
     <div class="botLine"></div>
     <div class="set">
         <div class="sound">
-            <p> Sound</p>
+            <p></p> Few Settings Buttons</p>
         </div>
         <div class="reset">
-            <p>Reset</p>
+            <button onclick="spawnDisks()">Reset</button>
         </div>
         <div class="level">
-            <button onclick="spawnDisks(8)">8</button>
+            <button onclick="levels(4)">4</button>
+            <button onclick="levels(5)">5</button>
+            <button onclick="levels(6)">6</button>
+            <button onclick="levels(7)">7</button>
+            <button onclick="levels(8)">8</button>
         </div>
 
     </div>
