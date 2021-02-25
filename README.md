@@ -2,6 +2,8 @@
 ## Project Description 
 game where 3 polls on the screen. Middle and right ones are empty, left poll has stack of "several" disks descending size top to bottom. User clicks on those polls to move top disk from one poll to the other. Disks can only be placed on empty poll or if top disk on that poll  is larger than target disk. End goal is to get all the disk to the right poll.
 
+## Technologies used
+- Canvas
 
 ## Wire Frames
 ![ff020dc55a0f4f47b1459711d51aaec2](https://media.git.generalassemb.ly/user/34028/files/55cb1c00-7295-11eb-86c0-e2488bcfe554)
